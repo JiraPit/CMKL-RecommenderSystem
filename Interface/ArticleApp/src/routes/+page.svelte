@@ -1,7 +1,6 @@
 <script lang="ts">
-  import SearchIcon from "./SearchIcon.svelte";
   import { goto } from "$app/navigation";
-  import FadeHover from "../lib/components/FadeHover.svelte";
+  import SearchIcon from "$lib/components/SearchIcon.svelte";
 
   // Dummy search term that binds to the input
   let searchTerm = "";
@@ -27,8 +26,7 @@
 
   // Function to goto an article page
   function gotoArticle(id: number) {
-    goto(`/article/${id}`);
-    return null;
+    goto("/article/${id}", { noScroll: true });
   }
 </script>
 
@@ -41,30 +39,31 @@
       bind:value={searchTerm}
       placeholder="Search..."
     />
-    <FadeHover>
-      <button class="search-button"> Search </button>
-    </FadeHover>
+    <button class="search-button"> Search </button>
   </div>
 
   {#each searchResults as result}
     <div class="result-card">
       <h2 class="result-title">{result.title}</h2>
       <p class="result-description">{result.description}</p>
-      <FadeHover>
-        <button class="read-button" on:click={gotoArticle(22)}>Read</button>
-      </FadeHover>
+      <button class="read-button" on:click={() => gotoArticle(22)}>Read</button>
     </div>
   {/each}
 </div>
 
 <style>
-  @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap");
+  @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400&display=swap");
+
+  :global(*) {
+    margin: 0;
+    padding: 0;
+    font-family: "Poppins", sans-serif;
+    font-style: normal;
+    font-weight: 400;
+  }
 
   .container {
-    font-family: "Poppins", sans-serif;
-    max-width: 100%;
-    margin: 0;
-    padding: 64px 64px; /* Top/bottom 64px, left/right 64px */
+    padding: 64px 64px;
   }
 
   .search-container {
@@ -82,7 +81,6 @@
     border: none;
     outline: none;
     font-size: 28px;
-    font-family: "Poppins", sans-serif;
     padding: 10px;
   }
 
@@ -94,8 +92,14 @@
     padding: 12px 48px;
     font-size: 24px;
     font-weight: bold;
-    font-family: "Poppins", sans-serif;
     cursor: pointer;
+    transition-duration: 300ms;
+  }
+
+  .search-button:hover {
+    transition-duration: 300ms;
+    scale: 0.9;
+    opacity: 0.8;
   }
 
   .result-card {
@@ -135,9 +139,15 @@
     padding: 12px 54px;
     font-size: 24px;
     font-weight: bold;
-    font-family: "Poppins", sans-serif;
     cursor: pointer;
     display: inline-block;
     align-self: flex-start;
+    transition-duration: 300ms;
+  }
+
+  .read-button:hover {
+    transition-duration: 300ms;
+    scale: 0.9;
+    opacity: 0.8;
   }
 </style>

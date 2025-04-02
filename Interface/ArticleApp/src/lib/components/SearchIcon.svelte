@@ -20,7 +20,7 @@
 
 <style>
   .search-icon {
-    margin-right: 10px;
-    margin-left: 10px;
+    margin-right: 15px;
+    margin-left: 15px;
   }
 </style>

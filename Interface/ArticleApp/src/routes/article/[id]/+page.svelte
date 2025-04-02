@@ -1,6 +1,8 @@
 <script>
-  import FadeHover from "../../../lib/components/FadeHover.svelte";
   import BackIcon from "./BackIcon.svelte";
+
+  export let data;
+  let { id } = data;
 
   // Dummy article data
   const article = {
@@ -50,8 +52,9 @@ a slightly different spelling then the other. This is a problem, and you want to
     },
   ];
 
+  // Function to go back to the previous page
   function goBack() {
-    window.history.back();
+    history.back();
   }
 </script>
 
@@ -59,11 +62,9 @@ a slightly different spelling then the other. This is a problem, and you want to
   <div class="article-scroll-container">
     <div class="article-container">
       <div class="article-title-area">
-        <FadeHover>
-          <button class="back-button" on:click={goBack}>
-            <BackIcon size={40} color="black"></BackIcon>
-          </button>
-        </FadeHover>
+        <button class="back-button" on:click={goBack}>
+          <BackIcon size={40} color="black"></BackIcon>
+        </button>
         <h1 class="article-title">
           {article.title}
         </h1>
@@ -85,9 +86,7 @@ a slightly different spelling then the other. This is a problem, and you want to
         {#each recommendedArticles as recommendation}
           <div class="recommendation-card">
             <h3 class="recommendation-title">{recommendation.title}</h3>
-            <FadeHover>
-              <button class="read-button">Read</button>
-            </FadeHover>
+            <button class="read-button">Read</button>
           </div>
         {/each}
       </div>
@@ -96,21 +95,6 @@ a slightly different spelling then the other. This is a problem, and you want to
 </div>
 
 <style>
-  @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap");
-
-  :global(body) {
-    margin: 0;
-    padding: 0;
-    font-family: "Poppins", sans-serif;
-    overflow: hidden;
-    height: 100vh;
-  }
-
-  :global(*) {
-    scrollbar-width: none;
-    -ms-overflow-style: none;
-  }
-
   .page-container {
     display: flex;
     width: 100%;
@@ -123,6 +107,7 @@ a slightly different spelling then the other. This is a problem, and you want to
     height: 100vh;
     overflow-y: auto;
     overflow-x: hidden;
+    scrollbar-width: none;
   }
 
   .article-container {
@@ -177,8 +162,6 @@ a slightly different spelling then the other. This is a problem, and you want to
     height: calc(100vh - 64px);
     display: flex;
     flex-direction: column;
-    position: sticky;
-    top: 0;
   }
 
   .sidebar-title {
@@ -193,7 +176,7 @@ a slightly different spelling then the other. This is a problem, and you want to
     flex: 1;
     overflow-y: auto;
     overflow-x: hidden;
-    padding-right: 10px;
+    scrollbar-width: none;
   }
 
   .recommendation-card {
@@ -223,10 +206,16 @@ a slightly different spelling then the other. This is a problem, and you want to
     padding: 12px 36px;
     font-size: 24px;
     font-weight: bold;
-    font-family: "Poppins", sans-serif;
     cursor: pointer;
     display: block;
     width: 100%;
     text-align: center;
+    transition-duration: 300ms;
+  }
+
+  .read-button:hover {
+    transition-duration: 300ms;
+    scale: 0.9;
+    opacity: 0.8;
   }
 </style>
