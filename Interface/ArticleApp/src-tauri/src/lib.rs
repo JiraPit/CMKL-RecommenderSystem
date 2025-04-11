@@ -1,12 +1,13 @@
 mod database_interface;
+mod python_interface;
 
 #[cfg_attr(mobile, tauri::mobile_entry_point)]
 pub fn run() {
     tauri::Builder::default()
         .plugin(tauri_plugin_opener::init())
         .invoke_handler(tauri::generate_handler![
-            database_interface::get_article,
-            database_interface::search,
+            // database_interface::get_article,
+            // database_interface::search,
         ])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");

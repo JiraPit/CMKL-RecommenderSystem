@@ -2,7 +2,7 @@
   "$schema": "https://schema.tauri.app/config/2",
   "productName": "article_app",
   "version": "0.1.0",
-  "identifier": "com.article_app.app",
+  "identifier": "com.articleapp.app",
   "build": {
     "beforeDevCommand": "npm run dev",
     "devUrl": "http://localhost:1420",
@@ -12,7 +12,7 @@
   "app": {
     "windows": [
       {
-        "title": "article_app",
+        "title": "Article App",
         "width": 1280,
         "height": 800,
         "minWidth": 1280,
