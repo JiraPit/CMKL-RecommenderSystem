@@ -2,15 +2,22 @@ import numpy as np
 from sentence_transformers import SentenceTransformer
 import faiss
 import pickle
+from pathlib import Path
 
 SENTENCE_EMBEDDING_MODEL = "all-MiniLM-L6-v2"
-FAISS_INDEX_PATH = "prepared/faiss_index.bin"
-ARTICLE_IDS_PATH = "prepared/article_ids.pkl"
+
+FAISS_INDEX_PATH = (
+    Path(__file__).parent / ".." / "Datasets" / "prepared" / "faiss_index.bin"
+).resolve()
+
+ARTICLE_IDS_PATH = (
+    Path(__file__).parent / ".." / "Datasets" / "prepared" / "article_ids.pkl"
+).resolve()
 
 
 # Load embedding model, FAISS index, and article IDs
 model = SentenceTransformer(SENTENCE_EMBEDDING_MODEL, device="cpu")
-faiss_index = faiss.read_index(FAISS_INDEX_PATH)
+faiss_index = faiss.read_index(str(FAISS_INDEX_PATH))
 article_ids = pickle.load(open(ARTICLE_IDS_PATH, "rb"))
 
 

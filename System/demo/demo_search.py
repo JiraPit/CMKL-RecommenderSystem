@@ -1,9 +1,12 @@
 from search import search
 import sqlite3
+from pathlib import Path
+
+ARTICLE_DB_PATH = (
+    Path(__file__).parent / ".." / ".." / "Datasets" / "prepared" / "article.db"
+).resolve()
 
 if __name__ == "__main__":
-    # Load article IDs
-
     query = "Seven Databases in Seven Days"
     print(f"Searching for: {query}")
 
@@ -11,8 +14,7 @@ if __name__ == "__main__":
     results = search(query, 5)
 
     # Fetch and print the results
-    article_db_path = "prepared/article.db"
-    with sqlite3.connect(article_db_path) as conn:
+    with sqlite3.connect(ARTICLE_DB_PATH) as conn:
         cursor = conn.cursor()
         for article_id in results:
             cursor.execute(

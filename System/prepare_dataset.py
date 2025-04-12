@@ -3,10 +3,18 @@ import numpy as np
 from sentence_transformers import SentenceTransformer
 import faiss
 import pickle
+from pathlib import Path
 
-ARTICLE_DB_PATH = "prepared/article.db"
-OUTPUT_FAISS_INDEX_PATH = "prepared/faiss_index.bin"
-OUTPUT_ARTICLE_IDS_PATH = "prepared/article_ids.pkl"
+ARTICLE_DB_PATH = (
+    Path(__file__).parent / ".." / "Datasets" / "prepared" / "article.db"
+).resolve()
+OUTPUT_FAISS_INDEX_PATH = (
+    Path(__file__).parent / ".." / "Datasets" / "prepared" / "faiss_index.bin"
+).resolve()
+OUTPUT_ARTICLE_IDS_PATH = (
+    Path(__file__).parent / ".." / "Datasets" / "prepared" / "article_ids.pkl"
+).resolve()
+
 
 # Setup
 print("Loading model...")
@@ -46,7 +54,7 @@ faiss_index.add(embeddings)
 
 # Save index and IDs
 print("Writing FAISS index and article IDs...")
-faiss.write_index(faiss_index, OUTPUT_FAISS_INDEX_PATH)
+faiss.write_index(faiss_index, str(OUTPUT_FAISS_INDEX_PATH))
 with open(OUTPUT_ARTICLE_IDS_PATH, "wb") as f:
     pickle.dump(article_ids, f)
 
