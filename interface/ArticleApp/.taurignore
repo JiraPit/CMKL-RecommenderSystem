@@ -1,0 +1,2 @@
+# Ignore proto file changes
+src-tauri/proto/system_backend.proto

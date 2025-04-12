@@ -1,60 +1,83 @@
-<script>
-  import BackIcon from "./BackIcon.svelte";
+<script lang="ts">
+  import { onMount } from "svelte";
+  import { goto } from "$app/navigation";
+  import { invoke } from "@tauri-apps/api/core";
+  import BackIcon from "$lib/components/BackIcon.svelte";
 
   export let data;
   let { id } = data;
 
-  // Dummy article data
-  const article = {
-    title: "Super Fast String Matching in Python",
-    content: `Traditional approaches to string matching such as the Jaro-Winkler or Levenshtein distance measure are too slow for large datasets. Using TF-IDF with N-Grams as 
-terms to find similar strings transforms the problem into a matrix multiplication problem, which is computationally much cheaper. Using this approach made it possible to search for near duplicates in a set of 663,000 company names in 42 minutes using only a dual-core laptop.
+  // Convert id to number
+  const articleId = parseInt(id);
 
-NAME MATCHING
-A problem that I have witnessed working with databases, and I think many other 
-people with me, is name matching. Databases often have multiple entries that 
-relate to the same entity, for example a person or company, where one entry has 
-a slightly different spelling then the other. This is a problem, and you want to de-duplicate these. A similar problem occurs when you want to merge or join databases using the names as identifier.
-
-Traditional approaches to string matching such as the Jaro-Winkler or Levenshtein distance measure are too slow for large datasets. Using TF-IDF with N-Grams as 
-terms to find similar strings transforms the problem into a matrix multiplication problem, which is computationally much cheaper. Using this approach made it possible to search for near duplicates in a set of 663,000 company names in 42 minutes using only a dual-core laptop.
-
-NAME MATCHING
-A problem that I have witnessed working with databases, and I think many other 
-people with me, is name matching. Databases often have multiple entries that 
-relate to the same entity, for example a person or company, where one entry has 
-a slightly different spelling then the other. This is a problem, and you want to de-duplicate these. A similar problem occurs when you want to merge or join databases using the names as identifier.
-
-Traditional approaches to string matching such as the Jaro-Winkler or Levenshtein distance measure are too slow for large datasets. Using TF-IDF with N-Grams as 
-terms to find similar strings transforms the problem into a matrix multiplication problem, which is computationally much cheaper. Using this approach made it possible to search for near duplicates in a set of 663,000 company names in 42 minutes using only a dual-core laptop.
-
-NAME MATCHING
-A problem that I have witnessed working with databases, and I think many other 
-people with me, is name matching. Databases often have multiple entries that 
-relate to the same entity, for example a person or company, where one entry has 
-a slightly different spelling then the other. This is a problem, and you want to de-duplicate these. A similar problem occurs when you want to merge or join databases using the names as identifier.
-`,
+  // Article data
+  let article = {
+    name: "Loading...",
+    description: "",
+    body: "Loading article content...",
   };
 
-  // Dummy recommended articles
-  const recommendedArticles = [
-    {
-      id: "456",
-      title: "Identify Useful HTTP API Tools",
-    },
-    {
-      id: "789",
-      title: "Identify Useful HTTP API Tools",
-    },
-    {
-      id: "101",
-      title: "Identify Useful HTTP API Tools",
-    },
-  ];
+  // Loading state
+  let isLoading = true;
+
+  // Recommended articles
+  type ArticleInfo = {
+    id: number;
+    name: string;
+  };
+
+  // Return type of the search_articles command
+  type SearchArticleResult = {
+    name: string;
+    description: string;
+  };
+
+  let recommendedArticles: ArticleInfo[] = [];
+
+  // Load article data when component mounts
+  onMount(async () => {
+    try {
+      // Get full article details
+      article = await invoke("get_article_full", { articleId });
+
+      // Get recommendations
+      const recIds: number[] = await invoke("search_articles", {
+        searchTerm: article.name + article.description,
+        numResults: 10,
+      });
+
+      // Get info for each recommended article
+      recommendedArticles = await Promise.all(
+        recIds
+          .filter((recId) => recId !== articleId) // Filter out current article
+          .map(async (recId) => {
+            const article_info: SearchArticleResult = await invoke(
+              "get_article_info",
+              {
+                articleId: recId,
+              },
+            );
+            return {
+              id: recId,
+              name: article_info.name,
+            };
+          }),
+      );
+    } catch (error) {
+      console.error("Error loading article:", error);
+    } finally {
+      isLoading = false;
+    }
+  });
 
   // Function to go back to the previous page
   function goBack() {
-    history.back();
+    goto("/", { noScroll: true });
+  }
+
+  // Function to navigate to another article
+  function gotoArticle(id: number) {
+    goto(`/article/${id}`, { noScroll: true });
   }
 </script>
 
@@ -66,29 +89,37 @@ a slightly different spelling then the other. This is a problem, and you want to
           <BackIcon size={40} color="black"></BackIcon>
         </button>
         <h1 class="article-title">
-          {article.title}
+          {article.name}
         </h1>
       </div>
       <div class="divider"></div>
       <div class="article-content">
-        {article.content
-          .replaceAll("\n\n", "DSDOCVLSJLD")
-          .replaceAll("\n", " ")
-          .replaceAll("DSDOCVLSJLD", "\n\n")}
+        {#if isLoading}
+          <p>Loading article content...</p>
+        {:else}
+          {article.body
+            .replaceAll("\n\n", "DSDOCVLSJLD")
+            .replaceAll("\n", " ")
+            .replaceAll("DSDOCVLSJLD", "\n\n")}
+        {/if}
       </div>
     </div>
   </div>
-
   <div class="sidebar-container">
     <div class="sidebar">
       <div class="sidebar-scroll-content">
         <h2 class="sidebar-title">More Like This</h2>
-        {#each recommendedArticles as recommendation}
-          <div class="recommendation-card">
-            <h3 class="recommendation-title">{recommendation.title}</h3>
-            <button class="read-button">Read</button>
-          </div>
-        {/each}
+        {#if !isLoading}
+          {#each recommendedArticles as recommendation}
+            <div class="recommendation-card">
+              <h3 class="recommendation-title">{recommendation.name}</h3>
+              <button
+                class="read-button"
+                on:click={() => gotoArticle(recommendation.id)}>Read</button
+              >
+            </div>
+          {/each}
+        {/if}
       </div>
     </div>
   </div>
