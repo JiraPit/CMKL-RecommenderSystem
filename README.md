@@ -1,13 +1,13 @@
 # CMKL Recommender System
 
-A semantic search-based article recommender system for discovering relevant articles based on user queries.
+A semantic search-based article recommender system for discovering relevant articles based on user queries and activities.
 
 ## Project Overview
 
 This system consists of two main components:
 
-1. Backend service (Python-based semantic search engine)
-2. Frontend interface (Desktop application for article browsing)
+1. Backend service - Semantic search and recommender system, written primarily in Python
+2. Frontend interface - Desktop application for article browsing, written in Rust(Tauri) and Svelte
 
 ## Project Structure
 
@@ -21,17 +21,12 @@ This system consists of two main components:
 ### Prerequisites
 
 - Python 3.8+ with pip
-- Pre-built binaries for your OS (located in `releases/` folder)
+- Python dependencies, installed with `pip install -r system/requirements.txt`
+- For development only, Rust and Node.js. 
 
 ### Running the System
 
-1. Install Python dependencies:
-
-   ```bash
-   pip install -r system/requirements.txt
-   ```
-
-2. Start the backend service:
+1. Start the backend service:
 
    ```bash
    python system/run_as_backend.py
@@ -39,10 +34,10 @@ This system consists of two main components:
 
    This starts the service on port 6789.
 
-3. Launch the interface application:
+2. Launch the interface application:
    - Windows: Run `releases/windows/ArticleApp.exe`
    - macOS: Run `releases/macos/ArticleApp.app`
-   - Linux: Run `releases/linux/ArticleApp`
+   - Linux: Run `releases/linux/ArticleApp.AppImage`
 
 ### Standalone Demo
 
