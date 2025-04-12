@@ -3,10 +3,13 @@ use std::fs;
 fn main() {
     // Copy dataset files to the dataset directory
     fs::copy(
-        "../../../Datasets/prepared/article.db",
-        "dataset/article.db",
+        "../../../proto/system_backend.proto",
+        "proto/system_backend.proto",
     )
-    .expect("Failed to copy article.db");
+    .unwrap_or_default();
+
+    // Build protobuf
+    tonic_build::compile_protos("proto/system_backend.proto").unwrap();
 
     tauri_build::build()
 }

@@ -1,0 +1,43 @@
+syntax = "proto3";
+
+package system_backend;
+
+// Service definition for the Recommender System
+service RecommenderService {
+  // Search for articles based on a term
+  rpc Search(SearchRequest) returns(SearchResponse);
+
+  // Get article information (name and description)
+  rpc GetArticleInfo(GetArticleInfoRequest) returns(GetArticleInfoResponse);
+
+  // Get full article information (name, description, and body)
+  rpc GetArticleFull(GetArticleFullRequest) returns(GetArticleFullResponse);
+}
+
+// The request message containing the search term and number of results
+message SearchRequest {
+  string search_term = 1;
+  int32 num_results = 2;
+}
+
+// The response message containing the article IDs
+message SearchResponse { repeated int32 article_ids = 1; }
+
+// The request message containing the article ID
+message GetArticleInfoRequest { int32 article_id = 1; }
+
+// The response message containing the article name and description
+message GetArticleInfoResponse {
+  string name = 1;
+  string description = 2;
+}
+
+// The request message for getting full article content
+message GetArticleFullRequest { int32 article_id = 1; }
+
+/// The response message containing the full article information
+message GetArticleFullResponse {
+  string name = 1;
+  string description = 2;
+  string body = 3;
+}
