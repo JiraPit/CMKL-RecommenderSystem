@@ -22,9 +22,9 @@ This system consists of two main components:
 
 - Python 3.8+ with pip
 - Python dependencies, installed with `pip install -r system/requirements.txt`
-- For development only, Rust and Node.js. 
+- For development only, Rust, Node.js, and Tauri
 
-### Running the System
+### Running the System with User Interface
 
 1. Start the backend service:
 
@@ -35,11 +35,26 @@ This system consists of two main components:
    This starts the service on port 6789.
 
 2. Launch the interface application:
+
+   #### Option 1: Use Pre-built Binaries (If Available)
+
    - Windows: Run `releases/windows/ArticleApp.exe`
    - macOS: Run `releases/macos/ArticleApp.app`
    - Linux: Run `releases/linux/ArticleApp.AppImage`
 
-### Standalone Demo
+   #### Option 2: Build on Your Own
+
+   1. Install the necessary prerequisites (Rust, Node.js, and Tauri) by following the guide at: https://tauri.app/start/prerequisites/
+   2. Navigate to the interface directory:
+      ```bash
+      cd interface/ArticleApp/
+      ```
+   3. Run the development mode:
+      ```bash
+      npm run tauri dev
+      ```
+
+### Running the System as a Standalone Command-line Demo
 
 For a simple command-line demo of the search functionality:
 
@@ -66,4 +81,3 @@ python system/stand_alone_demo/demo_search.py
 
 - **stand_alone_demo/demo_search.py**  
   Simple CLI demo for testing the search functionality directly.
-
