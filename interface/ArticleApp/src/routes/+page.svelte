@@ -62,7 +62,7 @@
 
   // Function to goto an article page
   function gotoArticle(id: number) {
-    goto(`/article/${id}`, { noScroll: true });
+    goto(`/article/${id}`, { noScroll: false });
   }
 </script>
 
@@ -84,7 +84,7 @@
     <div class="welcome-container">
       <h1 class="welcome-title">Welcome to Article Search</h1>
       <p class="welcome-description">
-        Enter a search term above to discover relevant articles
+        Enter a search term above to discover articles
       </p>
     </div>
   {:else if searchResults.length === 0 && !isSearching}
@@ -121,6 +121,8 @@
     width: auto;
     height: auto;
     background-color: #f0f4f8;
+    min-height: 100vh;
+    box-sizing: border-box; /* Ensure padding doesn't overflow */
   }
 
   .search-container {
@@ -213,7 +215,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 50vh;
+    height: 40vh;
     color: #f0f4f8;
     text-align: center;
     padding: 24px;

@@ -1,14 +1,21 @@
 <script lang="ts">
-  import { onMount } from "svelte";
   import { goto } from "$app/navigation";
   import { invoke } from "@tauri-apps/api/core";
   import BackIcon from "$lib/components/BackIcon.svelte";
 
   export let data;
-  let { id } = data;
 
-  // Convert id to number
-  const articleId = parseInt(id);
+  // Return type of the search_articles command
+  type SearchArticleResult = {
+    name: string;
+    description: string;
+  };
+
+  // Recommended articles
+  type ArticleInfo = {
+    id: number;
+    name: string;
+  };
 
   // Article data
   let article = {
@@ -19,26 +26,23 @@
 
   // Loading state
   let isLoading = true;
+  let recommendedArticles: ArticleInfo[];
 
-  // Recommended articles
-  type ArticleInfo = {
-    id: number;
-    name: string;
-  };
+  // Load on mount
+  $: if (data.id) {
+    isLoading = true;
+    fetchArticle(parseInt(data.id)).then((_) => {
+      isLoading = false;
+    });
+  }
 
-  // Return type of the search_articles command
-  type SearchArticleResult = {
-    name: string;
-    description: string;
-  };
-
-  let recommendedArticles: ArticleInfo[] = [];
-
-  // Load article data when component mounts
-  onMount(async () => {
+  // Function to fetch article data
+  async function fetchArticle(articleId: number) {
     try {
       // Get full article details
-      article = await invoke("get_article_full", { articleId });
+      article = await invoke("get_article_full", {
+        articleId,
+      });
 
       // Get recommendations
       const recIds: number[] = await invoke("search_articles", {
@@ -65,14 +69,12 @@
       );
     } catch (error) {
       console.error("Error loading article:", error);
-    } finally {
-      isLoading = false;
     }
-  });
+  }
 
   // Function to go back to the previous page
   function goBack() {
-    goto("/", { noScroll: true });
+    history.back();
   }
 
   // Function to navigate to another article
@@ -222,7 +224,7 @@
   }
 
   .recommendation-title {
-    font-size: 24px;
+    font-size: 20px;
     font-weight: bold;
     color: black;
     margin-top: 0;
