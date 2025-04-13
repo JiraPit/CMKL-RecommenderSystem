@@ -11,7 +11,7 @@ This system consists of two main components:
 
 ## Project Structure
 
-- `system/`: Backend code and utilities
+- `system/`: Recommender system and database
 - `interface/`: Frontend application code
 - `releases/`: Pre-built application binaries
 - `proto/`: Protocol buffer definitions for backend-frontend communication
