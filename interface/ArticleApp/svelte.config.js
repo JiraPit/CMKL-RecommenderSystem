@@ -9,6 +9,9 @@ const config = {
   preprocess: vitePreprocess(),
   kit: {
     adapter: adapter(),
+    prerender: {
+      entries: ["*", "/article/1"],
+    },
   },
 };
 
