@@ -36,11 +36,11 @@ This system consists of two main components:
 
 2. Launch the interface application:
 
-   #### Option 1: Use Pre-built Binaries (If Available)
+   #### Option 1: Use Pre-built Applications (Recommended)
 
-   - Windows: Run `releases/windows/ArticleApp.exe`
-   - macOS: Run `releases/macos/ArticleApp.app`
-   - Linux: Run `releases/linux/ArticleApp.AppImage`
+   - Windows: Run `releases/Windows`
+   - MacOS: Run `releases/MacOS`
+   - Linux: Run `releases/Linux`
 
    #### Option 2: Build on Your Own
 
