@@ -38,9 +38,9 @@ This system consists of two main components:
 
    #### Option 1: Use Pre-built Applications (Recommended)
 
-   - Windows: Run `releases/Windows`
-   - MacOS: Run `releases/MacOS`
-   - Linux: Run `releases/Linux`
+   - Windows: go to `releases/Windows`
+   - MacOS: go to `releases/MacOS`
+   - Linux: go to `releases/Linux`
 
    #### Option 2: Build on Your Own
 
