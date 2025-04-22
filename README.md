@@ -36,13 +36,13 @@ This system consists of two main components:
 
 2. Launch the interface application:
 
-   #### Option 1: Use Pre-built Applications (Recommended)
+   #### Option 1: Use pre-built applications (Recommended)
 
    - Windows: go to `releases/Windows`
    - MacOS: go to `releases/MacOS`
    - Linux: go to `releases/Linux`
 
-   #### Option 2: Build on Your Own
+   #### Option 2: Run from source in debug mode
 
    1. Install the necessary prerequisites (Rust, Node.js, and Tauri) by following the guide at: https://tauri.app/start/prerequisites/
    2. Navigate to the interface directory:
