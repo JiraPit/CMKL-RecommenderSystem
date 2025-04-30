@@ -2,65 +2,69 @@
 
 A semantic search-based article recommender system for discovering relevant articles based on user queries and activities.
 
+## Getting Started (Quick Start)
+
+### Using Pre-built Applications (Recommended)
+
+1. Download and install the application for your platform:
+   - Windows: from `interface/releases/Windows`
+   - MacOS: from `interface/releases/MacOS`
+   - Linux: from `interface/releases/Linux`
+
+2. Launch the application
+   
+   **IMPORTANT NOTE:** The first connection to the server may take up to 1-2 minutes because the server scales down to zero when idle.
+
+3. Start searching for articles!
+
 ## Project Overview
 
 This system consists of two main components:
 
-1. Backend service - Semantic search and recommender system, written primarily in Python
+1. Backend service - Semantic search and recommender system, written primarily in Python (hosted at https://article-recommender-system.fly.dev)
 2. Frontend interface - Desktop application for article browsing, written in Rust(Tauri) and Svelte
+
+## Development Setup
+
+### Prerequisites
+
+- For frontend development: 
+  - Rust, Node.js, and Tauri (follow guide at: https://tauri.app/start/prerequisites/)
+
+- For backend development only:
+  - Python 3.8+ with pip
+  - Python dependencies: `pip install -r system/requirements.txt`
+
+### Running in Development Mode
+
+#### Backend (if you need to run a local server)
+
+1. Start the backend service:
+
+   ```bash
+   python system/main.py
+   ```
+
+   This starts the service on port 6789.
+
+2. Update the server URL in the frontend to use the local server.
+
+#### Frontend
+
+1. Navigate to the interface directory:
+   ```bash
+   cd interface/ArticleApp/
+   ```
+2. Run in development mode:
+   ```bash
+   npm run tauri dev
+   ```
 
 ## Project Structure
 
 - `system/`: Recommender system and database
 - `interface/`: Frontend application code
-- `releases/`: Pre-built application binaries
 - `proto/`: Protocol buffer definitions for backend-frontend communication
-
-## Setup and Running
-
-### Prerequisites
-
-- Python 3.8+ with pip
-- Python dependencies, installed with `pip install -r system/requirements.txt`
-- For development only, Rust, Node.js, and Tauri
-
-### Running the System with User Interface
-
-1. Start the backend service:
-
-   ```bash
-   python system/run_as_backend.py
-   ```
-
-   This starts the service on port 6789.
-
-2. Launch the interface application:
-
-   #### Option 1: Use pre-built applications (Recommended)
-
-   - Windows: go to `releases/Windows`
-   - MacOS: go to `releases/MacOS`
-   - Linux: go to `releases/Linux`
-
-   #### Option 2: Run from source in debug mode
-
-   1. Install the necessary prerequisites (Rust, Node.js, and Tauri) by following the guide at: https://tauri.app/start/prerequisites/
-   2. Navigate to the interface directory:
-      ```bash
-      cd interface/ArticleApp/
-      ```
-   3. Run the development mode:
-      ```bash
-      npm run tauri dev
-      ```
-
-### Running the System as a Standalone Command-line Demo
-
-For a simple command-line demo of the search functionality:
-
-```bash
-python system/stand_alone_demo/demo_search.py
-```
 
 ## Key Components
 
@@ -76,8 +80,5 @@ python system/stand_alone_demo/demo_search.py
 - **search.py**  
   Core search functionality that uses sentence embeddings and vector search to find relevant articles.
 
-- **run_as_backend.py**  
+- **main.py**  
   Runs the system as a gRPC service that the interface connects to.
-
-- **stand_alone_demo/demo_search.py**  
-  Simple CLI demo for testing the search functionality directly.

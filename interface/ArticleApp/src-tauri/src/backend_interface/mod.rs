@@ -7,13 +7,14 @@ pub mod system_backend {
     tonic::include_proto!("system_backend");
 }
 
+use crate::constants::BACKEND_URL;
 use anyhow::{Context, Result};
 use system_backend::{
     recommender_service_client::RecommenderServiceClient, GetArticleFullRequest,
     GetArticleFullResponse, GetArticleInfoRequest, GetArticleInfoResponse, SearchRequest,
     SearchResponse,
 };
-use tonic::transport::Channel;
+use tonic::transport::{Channel, ClientTlsConfig};
 
 /// The interface to the system backend.
 /// Only one instance of this struct should be created globally
@@ -27,7 +28,8 @@ impl BackendInterface {
     /// Creates a new instance of BackendInterface by connecting to the gRPC server
     pub async fn new() -> Result<Self> {
         // Create a channel and client that connects to the server
-        let channel = Channel::from_static("http://0.0.0.0:6789")
+        let channel = Channel::from_static(BACKEND_URL)
+            .tls_config(ClientTlsConfig::new().with_native_roots())?
             .connect()
             .await
             .context("Failed to connect to server")?;

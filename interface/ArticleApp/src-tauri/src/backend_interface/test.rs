@@ -1,9 +1,14 @@
 #[cfg(test)]
 mod backend_interface_test {
     use super::super::BackendInterface;
+    use super::super::BACKEND_URL;
+    use tonic::transport::Channel;
+    use tonic::transport::ClientTlsConfig;
 
     async fn connect_to_service() -> BackendInterface {
-        let channel = tonic::transport::Channel::from_shared("http://0.0.0.0:6789")
+        let channel = Channel::from_shared(BACKEND_URL)
+            .unwrap()
+            .tls_config(ClientTlsConfig::new().with_native_roots())
             .unwrap()
             .connect()
             .await

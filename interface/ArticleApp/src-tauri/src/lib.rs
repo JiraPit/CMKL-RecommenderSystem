@@ -1,4 +1,5 @@
 mod backend_interface;
+mod constants;
 
 use backend_interface::BackendInterface;
 use tauri::State;

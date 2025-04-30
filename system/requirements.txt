@@ -4,4 +4,5 @@ sentence-transformers
 scikit-learn
 usearch
 grpcio
+grpcio-tools
 protobuf

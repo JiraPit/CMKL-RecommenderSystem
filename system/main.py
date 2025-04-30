@@ -114,10 +114,10 @@ def serve():
     pb_grpc.add_RecommenderServiceServicer_to_server(RecommenderServicer(), server)
 
     # Listen on port 50051
-    server.add_insecure_port("0.0.0.0:6789")
+    server.add_insecure_port("0.0.0.0:50051")
     server.start()
 
-    print("System backend started on port 6789...")
+    print("System backend started on port 50051...")
 
     try:
         # Keep thread alive
