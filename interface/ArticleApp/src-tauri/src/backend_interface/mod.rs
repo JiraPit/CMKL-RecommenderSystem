@@ -14,7 +14,8 @@ use system_backend::{
     GetArticleFullResponse, GetArticleInfoRequest, GetArticleInfoResponse, SearchRequest,
     SearchResponse,
 };
-use tonic::transport::{Channel, ClientTlsConfig};
+use tonic::transport::Channel;
+use tonic::transport::ClientTlsConfig;
 
 /// The interface to the system backend.
 /// Only one instance of this struct should be created globally
@@ -29,7 +30,12 @@ impl BackendInterface {
     pub async fn new() -> Result<Self> {
         // Create a channel and client that connects to the server
         let channel = Channel::from_static(BACKEND_URL)
-            .tls_config(ClientTlsConfig::new().with_native_roots())?
+            .tls_config(
+                ClientTlsConfig::new()
+                    .with_native_roots()
+                    .with_enabled_roots(),
+            )?
+            .timeout(tokio::time::Duration::from_secs(180))
             .connect()
             .await
             .context("Failed to connect to server")?;

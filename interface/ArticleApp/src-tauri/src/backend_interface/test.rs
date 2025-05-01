@@ -8,7 +8,11 @@ mod backend_interface_test {
     async fn connect_to_service() -> BackendInterface {
         let channel = Channel::from_shared(BACKEND_URL)
             .unwrap()
-            .tls_config(ClientTlsConfig::new().with_native_roots())
+            .tls_config(
+                ClientTlsConfig::new()
+                    .with_native_roots()
+                    .with_enabled_roots(),
+            )
             .unwrap()
             .connect()
             .await
