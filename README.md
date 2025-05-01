@@ -13,7 +13,7 @@ A semantic search-based article recommender system for discovering relevant arti
 
 2. Launch the application
    
-   **IMPORTANT NOTE:** The first connection to the server may take up to 1-2 minutes because the server scales down to zero when idle.
+   **IMPORTANT NOTE:** The first connection to the server may take up to 1-2 minutes **IF** the server was scaled down to zero.
 
 3. Start searching for articles!
 
