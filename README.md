@@ -45,7 +45,7 @@ This system consists of two main components:
    python system/main.py
    ```
 
-   This starts the service on port 6789.
+   This starts the service on port 50051.
 
 2. Update the server URL in the frontend to use the local server.
 
