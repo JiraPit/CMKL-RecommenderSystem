@@ -9,10 +9,14 @@ def main():
     # Convert to floats and then to integers (handling potential NaN values)
     user_interactions = user_interactions.astype(float).astype("Int64")
     vector_similarity = vector_similarity.astype(float).astype("Int64")
-    
+
     # Determine the number of top columns in each dataset
-    ui_top_columns = [col for col in user_interactions.columns if col.startswith("top_")]
-    vs_top_columns = [col for col in vector_similarity.columns if col.startswith("top_")]
+    ui_top_columns = [
+        col for col in user_interactions.columns if col.startswith("top_")
+    ]
+    vs_top_columns = [
+        col for col in vector_similarity.columns if col.startswith("top_")
+    ]
     max_top = min(len(ui_top_columns), len(vs_top_columns), 20)  # Cap at 20
     print(f"Working with {max_top} recommendation columns")
 
@@ -21,7 +25,9 @@ def main():
     for _, row in vector_similarity.iterrows():
         source_id = row["source_article"]
         recommendations = set(
-            row[f"top_{i}"] for i in range(1, max_top + 1) if f"top_{i}" in row.index and not pd.isna(row[f"top_{i}"])
+            row[f"top_{i}"]
+            for i in range(1, max_top + 1)
+            if f"top_{i}" in row.index and not pd.isna(row[f"top_{i}"])
         )
         vector_sim_dict[source_id] = recommendations
 
@@ -38,7 +44,9 @@ def main():
 
         # Get user interaction recommendations for this source
         ui_recommendations = set(
-            row[f"top_{i}"] for i in range(1, max_top + 1) if f"top_{i}" in row.index and not pd.isna(row[f"top_{i}"])
+            row[f"top_{i}"]
+            for i in range(1, max_top + 1)
+            if f"top_{i}" in row.index and not pd.isna(row[f"top_{i}"])
         )
 
         # Get vector similarity recommendations for this source
@@ -53,11 +61,12 @@ def main():
     # Create and save results DataFrame
     results_df = pd.DataFrame(results)
     # Rename overlap_count to clarify it counts matches in top recommendations
-    results_df = results_df.rename(columns={"overlap_count": f"overlap_count_top{max_top}"})
+    results_df = results_df.rename(
+        columns={"overlap_count": f"overlap_count_top{max_top}"}
+    )
     results_df.to_csv("recommendation_comparison.csv", index=False)
     print(f"Comparison complete. Results saved to recommendation_comparison.csv")
 
 
 if __name__ == "__main__":
     main()
-

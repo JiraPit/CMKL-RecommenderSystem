@@ -33,7 +33,9 @@ with open(output_file, "w", newline="") as f:
     skipped_count = 0
 
     for index, article in tqdm(articles_df.iterrows()):
-        article_id = article.get("article_id", index + 1)  # Use actual article_id if available
+        article_id = article.get(
+            "article_id", index + 1
+        )  # Use actual article_id if available
 
         # Skip articles with missing name or description
         if pd.isna(article["doc_full_name"]) or pd.isna(article["doc_description"]):
@@ -57,7 +59,9 @@ with open(output_file, "w", newline="") as f:
                 similar_articles = similar_articles[1:21]
             else:
                 # If we don't have enough results, pad with empty strings
-                similar_articles = similar_articles[1:] + [""] * (20 - len(similar_articles) + 1)
+                similar_articles = similar_articles[1:] + [""] * (
+                    20 - len(similar_articles) + 1
+                )
 
             # Write results to CSV - using article_id for all columns
             row = [article_id] + similar_articles
