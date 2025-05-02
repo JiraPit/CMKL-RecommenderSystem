@@ -11,11 +11,6 @@ COPY datasets/ datasets/
 COPY proto/ proto/
 COPY search.py search.py
 COPY main.py main.py
-COPY prepare_dataset.py prepare_dataset.py
 
-# Run prepare dataset
-RUN python prepare_dataset.py
-
-# Start the server
 EXPOSE 50051
 CMD ["python", "main.py"]

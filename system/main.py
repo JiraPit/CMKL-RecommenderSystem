@@ -7,10 +7,14 @@ from search import search
 import proto.system_backend_pb2_grpc as pb_grpc
 import proto.system_backend_pb2 as pb
 
+try:
+    script_dir = Path(__file__).parent
+except NameError:
+    script_dir = Path.cwd()
+
 # Set the path to the article database
-ARTICLE_DB_PATH = (
-    Path(__file__).parent / "datasets" / "prepared" / "article.db"
-).resolve()
+DATA_DIR = (script_dir / "datasets" / "prepared").resolve()
+ARTICLE_DB_PATH = DATA_DIR / "article.db"
 
 
 class RecommenderServicer(pb_grpc.RecommenderServiceServicer):
@@ -43,8 +47,8 @@ class RecommenderServicer(pb_grpc.RecommenderServiceServicer):
 
                 # Query for article info
                 cursor.execute(
-                    "SELECT article_id, doc_full_name, doc_description FROM article WHERE article_id = ?",
-                    (request.article_id,),
+                    "SELECT article_id, doc_full_name, doc_description FROM articles WHERE article_id = ?",
+                    (str(request.article_id),),
                 )
 
                 # Fetch the result
@@ -79,8 +83,8 @@ class RecommenderServicer(pb_grpc.RecommenderServiceServicer):
 
                 # Query for full article
                 cursor.execute(
-                    "SELECT article_id, doc_full_name, doc_description, doc_body FROM article WHERE article_id = ?",
-                    (request.article_id,),
+                    "SELECT article_id, doc_full_name, doc_description, doc_body FROM articles WHERE article_id = ?",
+                    (str(request.article_id),),
                 )
 
                 # Fetch the result
