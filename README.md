@@ -1,6 +1,6 @@
 # CMKL Recommender System
 
-A semantic search-based article recommender system for discovering relevant articles based on user queries and activities.
+
 
 ## Getting Started (Quick Start)
 
