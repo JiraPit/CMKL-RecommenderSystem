@@ -2,17 +2,21 @@ import pandas as pd
 from search import search
 import csv
 from tqdm import tqdm
+import sys
 import os
-from pathlib import Path
 
-try:
-    script_dir = Path(__file__).parent.parent
-except NameError:
-    script_dir = Path.cwd().parent
+# check cli argument
+if len(sys.argv) != 3:
+    print(f"{__file__} <input> <output>")
+    sys.exit(1)
+for file in sys.argv[1:]:
+    if not os.path.exists(file):
+        print(f"file {file} not found")
+        sys.exit(1)
 
 # Define paths
-input_csv = script_dir / "datasets" / "original" / "articles" / "articles_community.csv"
-output_file = script_dir / "evaluation" / "vector_similarity_results.csv"
+input_csv = sys.argv[1]
+output_file = sys.argv[2]
 
 # Ensure output directory exists
 os.makedirs(os.path.dirname(output_file), exist_ok=True)

@@ -2,10 +2,21 @@ import pandas as pd
 import csv
 from collections import defaultdict
 from tqdm import tqdm
+import sys
+import os
+
+# check cli argument
+cli_arg_count = 3
+if len(sys.argv) != cli_arg_count:
+    print(f"{__file__} <input> <output>")
+    sys.exit(1)
+if not os.path.exists(sys.argv[1]):
+    print(f"file {sys.argv[1]} not found")
+    sys.exit(1)
 
 # Load user-item interactions data
 print("Loading user-item interactions data...")
-interactions_df = pd.read_csv("datasets/original/articles/user-item-interactions.csv")
+interactions_df = pd.read_csv(sys.argv[1])
 
 # Group by email to find what users read
 print("Processing user interactions...")
@@ -55,7 +66,7 @@ for article_id in tqdm(all_articles):
     recommendations[article_id] = top_20
 
 # Write to CSV
-output_file = "evaluation/user_interaction_recommendations.csv"
+output_file = sys.argv[2]
 with open(output_file, "w", newline="") as f:
     writer = csv.writer(f)
 

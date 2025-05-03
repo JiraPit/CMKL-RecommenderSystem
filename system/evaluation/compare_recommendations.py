@@ -1,10 +1,22 @@
 import pandas as pd
-
+import sys
+import os
 
 def main():
+    # check cli argument
+    cli_arg_count = 4
+    if len(sys.argv) != cli_arg_count:
+        print(f"{__file__} <interaction_recommendations> <similarity_results> <output>")
+        sys.exit(1)
+    for file in sys.argv[1:-1]:
+        if not os.path.exists(file):
+            print(f"file {file} not found")
+            sys.exit(1)
+    
+    
     # Load the CSV files
-    user_interactions = pd.read_csv("user_interaction_recommendations.csv")
-    vector_similarity = pd.read_csv("vector_similarity_results.csv")
+    user_interactions = pd.read_csv(sys.argv[1])
+    vector_similarity = pd.read_csv(sys.argv[2])
 
     # Convert to floats and then to integers (handling potential NaN values)
     user_interactions = user_interactions.astype(float).astype("Int64")
@@ -64,8 +76,8 @@ def main():
     results_df = results_df.rename(
         columns={"overlap_count": f"overlap_count_top{max_top}"}
     )
-    results_df.to_csv("recommendation_comparison.csv", index=False)
-    print(f"Comparison complete. Results saved to recommendation_comparison.csv")
+    results_df.to_csv(sys.argv[3], index=False)
+    print(f"Comparison complete. Results saved to {sys.argv[1]}")
 
 
 if __name__ == "__main__":
