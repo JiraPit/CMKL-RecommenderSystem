@@ -13,7 +13,7 @@ This project implements an article recommendation system that suggests related c
 
 2. Launch the application
    
-   **IMPORTANT NOTE:** The first connection to the server may take up to 1-2 minutes **IF** the server was scaled down to zero.
+   **IMPORTANT NOTE:** The first connection to the server may take up to 1 minute **IF** the server was scaled down to zero. Otherwise, there is nothing to worry about.
 
 3. Start searching for articles!
 
