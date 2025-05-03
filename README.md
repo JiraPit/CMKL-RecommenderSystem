@@ -1,4 +1,4 @@
-# CMKL Recommender System
+# Article Recommender System
 
 This project implements an article recommendation system that suggests related content to users based on what they are currently reading.
 
