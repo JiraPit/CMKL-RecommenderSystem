@@ -1,18 +1,20 @@
 import pandas as pd
-from search import search
 import csv
 from tqdm import tqdm
 import sys
 import os
 
+dir_abs_path = os.path.dirname(os.path.realpath(__file__))
+sys.path.append(os.path.dirname(dir_abs_path))
+from search import search
+
 # check cli argument
 if len(sys.argv) != 3:
     print(f"{__file__} <input> <output>")
     sys.exit(1)
-for file in sys.argv[1:]:
-    if not os.path.exists(file):
-        print(f"file {file} not found")
-        sys.exit(1)
+if not os.path.exists(sys.argv[1]):
+    print(f"file {sys.argv[1]} not found")
+    sys.exit(1)
 
 # Define paths
 input_csv = sys.argv[1]
